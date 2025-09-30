@@ -1,0 +1,22 @@
+class Solution {
+    public ArrayList<String> binstr(int n) {
+        ArrayList<String> res = new ArrayList<>(1 << n);
+        StringBuilder sb = new StringBuilder(n);
+        dfs(n, sb, res);
+        return res;
+    }
+    
+    private void dfs(int n, StringBuilder sb, ArrayList<String> res) {
+        if (sb.length() == n) {
+            res.add(sb.toString());
+            return;
+        }
+        sb.append('0');
+        dfs(n, sb, res);
+        sb.setLength(sb.length() - 1);
+
+        sb.append('1');
+        dfs(n, sb, res);
+        sb.setLength(sb.length() - 1);
+    }
+}
