@@ -1,0 +1,78 @@
+public class Solution {
+    private static final String[] KEYPAD = {
+        "",
+        "",
+        "abc",
+        "def",
+        "ghi",
+        "jkl",
+        "mno",
+        "pqrs",
+        "tuv",
+        "wxyz"
+    };
+    
+    public ArrayList<String> possibleWords(int[] arr) {
+        ArrayList<String> result = new ArrayList<>();
+        if (arr == null || arr.length == 0) return result;
+        backtrack(arr, 0, new StringBuilder(), result);
+        return result;
+    }
+    
+    private void backtrack(int[] arr, int idx, StringBuilder current, ArrayList<String> result) {
+        if (idx == arr.length) {
+            if (current.length() > 0) result.add(current.toString());
+            return;
+        }
+        int digit = arr[idx];
+        if (digit < 0 || digit > 9) return;
+        String letters = KEYPAD[digit];
+        if (letters.isEmpty()) {
+            backtrack(arr, idx + 1, current, result);
+            return;
+        }
+        for (char ch : letters.toCharArray()) {
+            current.append(ch);
+            backtrack(arr, idx + 1, current, result);
+            current.deleteCharAt(current.length() - 1);
+        }
+    }
+
+    private static void printSortedWords(ArrayList<String> words) {
+        Collections.sort(words);
+        System.out.println(words);
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+
+        if (args.length == 0) {
+            int[] arr1 = {2, 3};
+            ArrayList<String> res1 = sol.possibleWords(arr1);
+            System.out.print("Input: [2, 3] -> Output: ");
+            printSortedWords(res1);
+
+            int[] arr2 = {2};
+            ArrayList<String> res2 = sol.possibleWords(arr2);
+            System.out.print("Input: [2] -> Output: ");
+            printSortedWords(res2);
+
+            int[] arr3 = {8, 8, 1};
+            ArrayList<String> res3 = sol.possibleWords(arr3);
+            System.out.print("Input: [8, 8, 1] -> Output: ");
+            printSortedWords(res3);
+        } else {
+            try {
+                int[] input = new int[args.length];
+                for (int i = 0; i < args.length; i++) {
+                    input[i] = Integer.parseInt(args[i]);
+                }
+                ArrayList<String> out = sol.possibleWords(input);
+                System.out.print("Input: " + Arrays.toString(input) + " -> Output: ");
+                printSortedWords(out);
+            } catch (NumberFormatException nfe) {
+                System.err.println("Invalid input. Provide digits as integers, e.g. 2 3 4");
+            }
+        }
+    }
+}
