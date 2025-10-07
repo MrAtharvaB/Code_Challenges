@@ -1,0 +1,40 @@
+class Solution {
+    public ArrayList<Integer> bottomView(Node root) {
+        ArrayList<Integer> result = new ArrayList<>();
+        if (root == null) return result;
+
+        Map<Integer, Integer> hdMap = new TreeMap<>();
+        Queue<Pair> queue = new LinkedList<>();
+        queue.add(new Pair(root, 0));
+        
+        while (!queue.isEmpty()) {
+            Pair curr = queue.poll();
+            Node node = curr.node;
+            int hd = curr.hd;
+
+            hdMap.put(hd, node.data);
+
+            if (node.left != null) {
+                queue.add(new Pair(node.left, hd - 1));
+            }
+            if (node.right != null) {
+                queue.add(new Pair(node.right, hd + 1));
+            }
+        }
+
+        for (int val : hdMap.values()) {
+            result.add(val);
+        }
+        return result;
+    }
+
+    static class Pair {
+        Node node;
+        int hd;
+
+        Pair(Node node, int hd) {
+            this.node = node;
+            this.hd = hd;
+        }
+    }
+}
