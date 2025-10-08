@@ -1,0 +1,26 @@
+class Solution {
+    int preIndex = 0;
+    public Node constructTree(int[] pre, int[] post) {
+        preIndex = 0;
+        return construct(pre, post, 0, post.length - 1);
+    }
+    
+    private Node construct(int[] pre, int[] post, int postStart, int postEnd) {
+        if (preIndex >= pre.length || postStart > postEnd)
+            return null;
+        Node root = new Node(pre[preIndex++]);
+        if (postStart == postEnd || preIndex >= pre.length)
+            return root;
+        int leftChildVal = pre[preIndex];
+        int i;
+        for (i = postStart; i <= postEnd; i++) {
+            if (post[i] == leftChildVal)
+                break;
+        }
+        if (i <= postEnd) {
+            root.left = construct(pre, post, postStart, i);
+            root.right = construct(pre, post, i + 1, postEnd - 1);
+        }
+        return root;
+    }
+}
