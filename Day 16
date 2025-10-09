@@ -1,0 +1,14 @@
+class Solution {
+    public ArrayList<Integer> postOrder(Node root) {
+        ArrayList<Integer> result = new ArrayList<>();
+        postOrderUtil(root, result);
+        return result;
+    }
+    
+    private void postOrderUtil(Node node, ArrayList<Integer> result) {
+        if (node == null) return;
+        postOrderUtil(node.left, result);
+        postOrderUtil(node.right, result);
+        result.add(node.data);
+    }
+}
