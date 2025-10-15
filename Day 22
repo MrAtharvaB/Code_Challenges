@@ -1,0 +1,25 @@
+class Solution {
+    static class Count {
+        int k;
+        int result = -1;
+        Count(int k) { this.k = k; }
+    }
+    
+    public int kthSmallest(Node root, int k) {
+        Count cnt = new Count(k);
+        inorder(root, cnt);
+        return cnt.result;
+    }
+    
+    private void inorder(Node node, Count cnt) {
+        if (node == null || cnt.k == 0)
+            return;
+        inorder(node.left, cnt);
+        cnt.k--;
+        if (cnt.k == 0) {
+            cnt.result = node.data;
+            return;
+        }
+        inorder(node.right, cnt);
+    }
+}
