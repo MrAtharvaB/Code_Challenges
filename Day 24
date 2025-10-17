@@ -1,0 +1,15 @@
+class Solution {
+    public static void transformTree(Node root) {
+        int[] acc = new int[1];
+        dfs(root, acc);
+    }
+
+    private static void dfs(Node node, int[] acc) {
+        if (node == null) return;
+        dfs(node.right, acc);
+        int original = node.data;
+        node.data = acc[0];
+        acc[0] += original;
+        dfs(node.left, acc);
+    }
+}
