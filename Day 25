@@ -1,0 +1,51 @@
+class Solution {
+    public int findMedian(Node root) {
+        if (root == null) return 0;
+
+        int n = 0;
+        Node curr = root;
+        while (curr != null) {
+            if (curr.left == null) {
+                n++;
+                curr = curr.right;
+            } else {
+                Node pred = curr.left;
+                while (pred.right != null && pred.right != curr) pred = pred.right;
+                if (pred.right == null) {
+                    pred.right = curr;
+                    curr = curr.left;
+                } else {
+                    pred.right = null;
+                    n++;
+                    curr = curr.right;
+                }
+            }
+        }
+
+        int k = (n % 2 == 0) ? (n / 2) : ((n + 1) / 2);
+
+        int count = 0;
+        curr = root;
+        while (curr != null) {
+            if (curr.left == null) {
+                count++;
+                if (count == k) return curr.data;
+                curr = curr.right;
+            } else {
+                Node pred = curr.left;
+                while (pred.right != null && pred.right != curr) pred = pred.right;
+                if (pred.right == null) {
+                    pred.right = curr;
+                    curr = curr.left;
+                } else {
+                    pred.right = null;
+                    count++;
+                    if (count == k) return curr.data;
+                    curr = curr.right;
+                }
+            }
+        }
+
+        return -1; 
+    }
+}
