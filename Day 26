@@ -1,0 +1,49 @@
+class Solution {
+    public ArrayList<Integer> getKClosest(Node root, int target, int k) {
+        ArrayList<Integer> inOrder = new ArrayList<>();
+        inorder(root, inOrder);
+
+        int n = inOrder.size();
+        // find first index >= target (lower_bound)
+        int lo = 0, hi = n;
+        while (lo < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (inOrder.get(mid) < target) lo = mid + 1;
+            else hi = mid;
+        }
+        int left = lo - 1;
+        int right = lo;
+        ArrayList<Integer> ans = new ArrayList<>(k);
+
+        while (k > 0 && (left >= 0 || right < n)) {
+            if (left < 0) {
+                ans.add(inOrder.get(right));
+                right++;
+            } else if (right >= n) {
+                ans.add(inOrder.get(left));
+                left--;
+            } else {
+                int dl = Math.abs(inOrder.get(left) - target);
+                int dr = Math.abs(inOrder.get(right) - target);
+                // If equal distance choose the smaller value -> left (since inOrder[left] < inOrder[right])
+                if (dl <= dr) {
+                    ans.add(inOrder.get(left));
+                    left--;
+                } else {
+                    ans.add(inOrder.get(right));
+                    right++;
+                }
+            }
+            k--;
+        }
+
+        return ans;
+    }
+
+    private void inorder(Node node, List<Integer> list) {
+        if (node == null) return;
+        inorder(node.left, list);
+        list.add(node.data);
+        inorder(node.right, list);
+    }
+}
