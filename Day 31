@@ -1,0 +1,20 @@
+class Solution {
+    public int minOperations(int[] arr) {
+        PriorityQueue<Double> pq = new PriorityQueue<>(Collections.reverseOrder());
+        double sum = 0;
+        for (int x : arr) {
+            sum += x;
+            pq.add((double) x);
+        }
+        double target = sum / 2.0;
+        int operations = 0;
+        while (sum > target) {
+            double largest = pq.poll();
+            double half = largest / 2.0;
+            sum -= half;
+            pq.add(half);
+            operations++;
+        }
+        return operations;
+    }
+}
