@@ -1,0 +1,17 @@
+class Solution {
+    public int minSquares(int n) {
+        if (isSquare(n)) return 1;
+        for (int a = 1; a * a <= n; a++) {
+            if (isSquare(n - a * a)) return 2;
+        }
+        int m = n;
+        while (m % 4 == 0) m /= 4;
+        if (m % 8 == 7) return 4;
+        return 3;
+    }
+
+    private boolean isSquare(int x) {
+        int r = (int)Math.sqrt(x);
+        return r * r == x;
+    }
+}
