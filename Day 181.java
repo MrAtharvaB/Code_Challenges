@@ -6,7 +6,7 @@ class Solution {
 
         List<List<int[]>> adj = new ArrayList<>();
         for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
-
+ 
         for (int[] e : edges) {
             int u = e[0], v = e[1], t = e[2];
             adj.get(u).add(new int[]{v, t});
